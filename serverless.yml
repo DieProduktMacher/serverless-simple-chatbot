@@ -1,0 +1,24 @@
+service: simple-chatbot
+
+# Auf welcher Cloud-Plattform unser Chatbot läuft.
+# Weitere Infos zu den unterstützen Plattformen findest du unter:
+# https://serverless.com/framework/docs/providers/
+provider:
+  name: aws
+  runtime: nodejs6.10
+
+# Listen for GET and POST requests at /webhook
+functions:
+  verification:
+    handler: handler.verify
+    events:
+      - http: GET webhook
+  update:
+    handler: handler.update
+    events:
+      - http: POST webhook
+
+# The serverless-local-dev-server plugin allows you to run your chatbot
+# locally on your computer
+plugins:
+  - serverless-local-dev-server

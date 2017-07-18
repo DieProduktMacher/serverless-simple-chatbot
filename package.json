@@ -1,0 +1,36 @@
+{
+  "name": "serverless-simple-chatbot",
+  "version": "1.0.0",
+  "engines": {
+    "node": ">=6.0"
+  },
+  "description": "A simple chatbot echoing what a user said",
+  "main": "handler.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DieProduktMacher/serverless-simple-chatbot.git"
+  },
+  "keywords": [
+    "bot",
+    "chatbot",
+    "facebook",
+    "messenger",
+    "serverless",
+    "example"
+  ],
+  "author": "DieProduktMacher <www.dieproduktmacher.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/DieProduktMacher/serverless-simple-chatbot/issues"
+  },
+  "homepage": "https://github.com/DieProduktMacher/serverless-simple-chatbot#readme",
+  "devDependencies": {
+    "serverless-local-dev-server": "^0.2.0"
+  },
+  "dependencies": {
+    "axios": "^0.16.2"
+  }
+}
