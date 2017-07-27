@@ -12,13 +12,17 @@ const MESSAGES_URL = `https://graph.facebook.com/v2.6/me/messages?access_token=$
 // Chatbots authentifizieren sich dabei durch Prüfung und Rückgabe das Challenge-Tokens.
 // Siehe dazu auch: https://developers.facebook.com/docs/graph-api/webhooks#verification
 module.exports.verify = (event, context, callback) => {
-  if (event.query['hub.verify_token'] === VERIFICATION_TOKEN && event.query['hub.challenge']) {
+  let queryParams = event.queryStringParameters
+  if (queryParams['hub.verify_token'] === VERIFICATION_TOKEN && queryParams['hub.challenge']) {
     return callback(null, {
       statusCode: 200,
-      body: parseInt(event.query['hub.challenge'])
+      body: '' + parseInt(queryParams['hub.challenge'])
     })
   } else {
-    return callback('Invalid token')
+    return callback(null, {
+      statusCode: 401,
+      body: 'Invalid token'
+    })
   }
 }
 
