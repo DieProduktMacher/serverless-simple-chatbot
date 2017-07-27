@@ -12,11 +12,11 @@ const MESSAGES_URL = `https://graph.facebook.com/v2.6/me/messages?access_token=$
 // Chatbots authentifizieren sich dabei durch Prüfung und Rückgabe das Challenge-Tokens.
 // Siehe dazu auch: https://developers.facebook.com/docs/graph-api/webhooks#verification
 module.exports.verify = (event, context, callback) => {
-  let queryParams = event.queryStringParameters
+  let queryParams = event.queryStringParameters || {}
   if (queryParams['hub.verify_token'] === VERIFICATION_TOKEN && queryParams['hub.challenge']) {
     return callback(null, {
       statusCode: 200,
-      body: '' + parseInt(queryParams['hub.challenge'])
+      body: queryParams['hub.challenge']
     })
   } else {
     return callback(null, {
@@ -31,7 +31,8 @@ module.exports.verify = (event, context, callback) => {
 // Jeder Eintrag wiederum enthält eine Liste mit Nachrichten, welche von Nutzern gesendet wurden.
 // Siehe dazu auch: https://developers.facebook.com/docs/graph-api/webhooks#update-notification
 module.exports.update = (event, context, callback) => {
-  event.body.entry.forEach(entry => {
+  let body = JSON.parse(event.body)
+  body.entry.forEach(entry => {
     entry.messaging.forEach(messagingItem => {
 
       // Eine Textnachricht wurde an unseren Bot gesendet, auf welche wir mit selbiger antworten.
@@ -44,7 +45,7 @@ module.exports.update = (event, context, callback) => {
           message: { text: messagingItem.message.text }
         }
         axios.post(MESSAGES_URL, payload).then(response => {
-          console.log('Successfully delivered message', response)
+          console.log('Successfully delivered message', response.data)
         }).catch(error => {
           console.error('Error delivering message', error)
         })
